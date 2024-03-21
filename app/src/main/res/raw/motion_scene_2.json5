@@ -7,7 +7,7 @@
         start: ['parent', 'start', 16],
         bottom: ['parent', 'bottom', 16],
         custom: {
-          background: '#ADD8E6'
+          background: '#FF0049A2'
         }
       },
       username: {
@@ -20,7 +20,7 @@
         height: 'spread',
         start: ['parent', 'start'],
         end: ['parent', 'end'],
-        top: ['profile_pic', 'top', -16],
+        top: ['profile_pic', 'top', -30],
         bottom: ['parent', 'bottom'],
       },
       container: {
@@ -30,6 +30,18 @@
         end: ['parent', 'end'],
         top: ['parent', 'top'],
         bottom: ['parent', 'bottom'],
+      },
+      btn_expand: {
+        width: 'wrap',
+        height: 'wrap',
+        start: ['parent', 'start', 10],
+        bottom: ['profile_pic', 'top'],
+      },
+      btn_minimize: {
+        width: '0',
+        height: '0',
+        start: ['parent', 'start'],
+        top: ['parent', 'top'],
       }
     },
     end: {
@@ -63,6 +75,18 @@
         end: ['parent', 'end'],
         top: ['parent', 'top'],
         bottom: ['parent', 'bottom'],
+      },
+      btn_expand: {
+        width: '0',
+        height: '0',
+        start: ['parent', 'start'],
+        top: ['parent', 'top'],
+      },
+      btn_minimize: {
+        width: 'wrap',
+        height: 'wrap',
+        start: ['parent', 'start', 24],
+        top: ['parent', 'top', 24],
       }
     }
   },

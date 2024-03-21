@@ -1,6 +1,7 @@
 package com.naufal.composemotionlayout
 
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,23 +10,33 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +53,7 @@ import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionLayoutDebugFlags
 import androidx.constraintlayout.compose.MotionScene
 import com.naufal.composemotionlayout.ui.theme.ComposeMotionLayoutTheme
+import kotlinx.coroutines.launch
 import java.util.EnumSet
 
 class MainActivity : ComponentActivity() {
@@ -75,6 +87,8 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMotionApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun ProfileHeader(modifier: Modifier = Modifier) {
+    val scope = rememberCoroutineScope()
+
     val context = LocalContext.current
     val motionScene = remember {
         context.resources
@@ -94,7 +108,7 @@ fun ProfileHeader(modifier: Modifier = Modifier) {
             initialValue = AnchoredDraggableCardState.DRAGGED_DOWN,
             anchors = anchors,
             positionalThreshold = { distance: Float -> distance * 0.5f },
-            velocityThreshold = { with(density) { 100.dp.toPx() } },
+            velocityThreshold = { with(density) { 1.dp.toPx() } },
             animationSpec = tween(),
         )
     }
@@ -115,6 +129,7 @@ fun ProfileHeader(modifier: Modifier = Modifier) {
                 .background(Color(0xFFCEE1E7))
                 .layoutId("container")
         )
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,6 +137,7 @@ fun ProfileHeader(modifier: Modifier = Modifier) {
                 .background(Color(0xFF469AFF))
                 .layoutId("box")
         )
+
         Image(
             painter = painterResource(id = R.drawable.inori1),
             contentDescription = null,
@@ -134,11 +150,40 @@ fun ProfileHeader(modifier: Modifier = Modifier) {
                 )
                 .layoutId("profile_pic")
         )
+
         Text(
             text = "Inori Minase",
             fontSize = 24.sp,
             modifier = Modifier.layoutId("username"),
             color = properties.value.color("background")
+        )
+
+        Icon(
+            modifier = Modifier
+                .size(28.dp)
+                .clickable {
+                    scope.launch {
+                        anchoredDraggableState.animateTo(targetValue = AnchoredDraggableCardState.DRAGGED_UP)
+                    }
+                }
+                .layoutId("btn_expand"),
+            imageVector = Icons.Default.KeyboardArrowUp,
+            contentDescription = "",
+            tint = Color.White
+        )
+
+        Icon(
+            modifier = Modifier
+                .size(28.dp)
+                .clickable {
+                    scope.launch {
+                        anchoredDraggableState.animateTo(targetValue = AnchoredDraggableCardState.DRAGGED_DOWN)
+                    }
+                }
+                .layoutId("btn_minimize"),
+            imageVector = Icons.Default.KeyboardArrowDown,
+            contentDescription = "",
+            tint = Color.White
         )
     }
 }
